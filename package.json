@@ -1,0 +1,25 @@
+{
+  "name": "oauth-node-example-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Frameio/oauth-node-example-app.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Frameio/oauth-node-example-app/issues"
+  },
+  "homepage": "https://github.com/Frameio/oauth-node-example-app#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "express-session": "^1.15.6",
+    "simple-oauth2": "^2.2.1"
+  }
+}
