@@ -1,3 +1,4 @@
+const crypto = require('crypto');
 const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
@@ -6,7 +7,6 @@ const app = express();
 const port = 5050;
 
 const clientID = '<YOUR-CLIENT-ID>';
-const clientSecret = '<YOUR-CLIENT-SECRET>';
 const callbackURL = 'http://localhost:5050/callback';
 
 // NOTE: Replace this list of scope strings with whichever you'd like the demo
@@ -16,7 +16,6 @@ const scopes = 'offline account.read asset.create';
 const credentials = {
   client: {
     id: clientID,
-    secret: clientSecret,
   },
   auth: {
     tokenHost: 'https://applications.frame.io',
@@ -24,9 +23,28 @@ const credentials = {
     tokenPath: '/oauth2/token',
   },
   options: {
-    authorizationMethod: 'header',
+    authorizationMethod: 'body',
   },
 };
+
+function base64URLEncode(str) {
+  return str
+    .toString('base64')
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=/g, '');
+}
+
+function sha256(str) {
+  return crypto
+    .createHash('sha256')
+    .update(str)
+    .digest();
+}
+
+// PKCE code_verifier string and code_challenge encoded hash
+const verifier = base64URLEncode(crypto.randomBytes(32));
+const challenge = base64URLEncode(sha256(verifier));
 
 const oauth2 = require('simple-oauth2').create(credentials);
 
@@ -34,6 +52,8 @@ const authorizationUri = oauth2.authorizationCode.authorizeURL({
   redirect_uri: callbackURL,
   scope: scopes,
   state: 'some_state',
+  code_challenge: challenge,
+  code_challenge_method: 'S256',
 });
 
 app.use(bodyParser());
@@ -47,6 +67,7 @@ app.get('/callback', async (req, res) => {
   const code = req.query.code;
   const options = {
     code,
+    code_verifier: verifier,
     redirect_uri: callbackURL,
   };
 
