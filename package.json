@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/Frameio/oauth-node-example-app#readme",
   "dependencies": {
-    "body-parser": "^1.18.3",
+    "body-parser": "^1.20.2",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
     "simple-oauth2": "^2.2.1"
