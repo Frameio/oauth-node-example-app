@@ -18,8 +18,8 @@
   "homepage": "https://github.com/Frameio/oauth-node-example-app#readme",
   "dependencies": {
     "body-parser": "^1.18.3",
-    "express": "^4.16.4",
-    "express-session": "^1.15.6",
+    "express": "^4.21.1",
+    "express-session": "^1.18.1",
     "simple-oauth2": "^2.2.1"
   }
 }
